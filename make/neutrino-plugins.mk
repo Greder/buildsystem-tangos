@@ -57,6 +57,10 @@ $(D)/links: $(D)/bootstrap $(D)/freetype $(D)/libpng $(D)/libjpeg $(D)/openssl $
 #
 # neutrino-plugins
 #
+NEUTRINO_PLUGINS  = $(D)/neutrino-plugin-scripts-lua
+NEUTRINO_PLUGINS += $(D)/neutrino-plugin-mediathek
+NEUTRINO_PLUGINS += $(D)/neutrino-plugin-xupnpd
+NEUTRINO_PLUGINS += $(LOCAL_NEUTRINO_PLUGINS)
 
 NP_OBJDIR = $(BUILD_TMP)/neutrino-plugins
 
@@ -70,7 +74,7 @@ $(D)/neutrino-plugins.do_prepare: $(D)/bootstrap $(D)/ffmpeg $(D)/libcurl $(D)/l
 	rm -rf $(SOURCE_DIR)/neutrino-plugins.org
 	set -e; if [ -d $(ARCHIVE)/neutrino-plugins-ddt.git ]; \
 		then cd $(ARCHIVE)/neutrino-plugins-ddt.git; git pull; \
-		else cd $(ARCHIVE); git clone https://github.com/Duckbox-Developers/neutrino-mp-plugins.git neutrino-plugins-ddt.git; \
+		else cd $(ARCHIVE); git clone https://github.com/Greder/neutrino-mp-plugins-saved.git neutrino-plugins-ddt.git; \
 		fi
 	cp -ra $(ARCHIVE)/neutrino-plugins-ddt.git $(SOURCE_DIR)/neutrino-plugins
 ifeq ($(BOXARCH), arm)
@@ -146,7 +150,7 @@ $(D)/neutrino-plugin-xupnpd: $(D)/bootstrap $(D)/lua $(D)/openssl $(D)/neutrino-
 		$(call apply_patches, $(XUPNPD_PATCH))
 	$(CHDIR)/xupnpd/src; \
 		$(BUILDENV) \
-		$(MAKE) embedded TARGET=$(TARGET) PKG_CONFIG=$(PKG_CONFIG) LUAFLAGS="$(TARGET_LDFLAGS) -I$(TARGET_INCLUDE_DIR)"; \
+		$(MAKE) -j1 TARGET=$(TARGET) PKG_CONFIG=$(PKG_CONFIG) LUAFLAGS="$(TARGET_LDFLAGS) -I$(TARGET_INCLUDE_DIR)"; \
 		$(MAKE) install DESTDIR=$(TARGET_DIR)
 	install -m 755 $(SKEL_ROOT)/etc/init.d/xupnpd $(TARGET_DIR)/etc/init.d/
 	mkdir -p $(TARGET_DIR)/usr/share/xupnpd/config
