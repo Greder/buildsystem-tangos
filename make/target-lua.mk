@@ -90,7 +90,7 @@ $(D)/luajson: $(D)/bootstrap $(D)/lua $(ARCHIVE)/json.lua
 #
 # luacurl
 #
-LUACURL_VER = e0b1d2ee
+LUACURL_VER = 9ac72c7
 LUACURL_SOURCE = luacurl-git-$(LUACURL_VER).tar.bz2
 LUACURL_URL = git://github.com/Lua-cURL/Lua-cURLv3.git
 
