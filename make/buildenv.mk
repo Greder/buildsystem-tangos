@@ -45,7 +45,7 @@ GITHUB               ?= https://github.com
 endif
 GIT_NAME             ?= TangoCash
 GIT_NAME_DRIVER      ?= Duckbox-Developers
-GIT_NAME_TOOLS       ?= Duckbox-Developers
+GIT_NAME_TOOLS       ?= Greder
 GIT_NAME_FLASH       ?= Duckbox-Developers
 
 # default config...
