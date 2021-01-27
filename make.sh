@@ -175,7 +175,7 @@ if [ $BOXARCH == "sh4" ]; then
 
 CURDIR=`pwd`
 echo -ne "\n    Checking the .elf files in $CURDIR/root/boot..."
-set='audio_7100 audio_7105 audio_7111 video_7100 video_7105 video_7109 video_7111'
+set='audio_7109 video_7109'
 for i in $set;
 do
 	if [ ! -e $CURDIR/root/boot/$i.elf ]; then
