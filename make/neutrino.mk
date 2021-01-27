@@ -211,7 +211,7 @@ LIBSTB_HAL   = libstb-hal-tangos
 NMP_BRANCH  ?= master
 HAL_BRANCH  ?= master
 NMP_PATCHES  = $(NEUTRINO_MP_TANGOS_PATCHES)
-HAL_PATCHES  = $(NEUTRINO_MP_LIBSTB_TANGOS_PATCHES)
+HAL_PATCHES  = $(PATCHES)/build-neutrino/libstb-hal-tangos.patch
 else ifeq  ($(FLAVOUR), neutrino-ddt)
 GIT_URL     ?= https://github.com/Duckbox-Developers
 NEUTRINO_MP  = neutrino-mp-ddt
