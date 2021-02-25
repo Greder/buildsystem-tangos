@@ -324,8 +324,8 @@ $(D)/libffi: $(D)/bootstrap $(ARCHIVE)/$(LIBFFI_SOURCE)
 # host_libglib2_genmarshal
 #
 LIBGLIB2_VER_MAJOR = 2
-LIBGLIB2_VER_MINOR = 55
-LIBGLIB2_VER_MICRO = 0
+LIBGLIB2_VER_MINOR = 57
+LIBGLIB2_VER_MICRO = 1
 LIBGLIB2_VER = $(LIBGLIB2_VER_MAJOR).$(LIBGLIB2_VER_MINOR).$(LIBGLIB2_VER_MICRO)
 LIBGLIB2_SOURCE = glib-$(LIBGLIB2_VER).tar.xz
 
@@ -346,6 +346,7 @@ $(D)/host_libglib2_genmarshal: $(D)/bootstrap $(D)/host_libffi $(ARCHIVE)/$(LIBG
 			--disable-fam \
 			--disable-libmount \
 			--with-pcre=internal \
+			--disable-compile-warnings \
 		; \
 		$(MAKE) install; \
 		cp -a out/bin/glib-* $(HOST_DIR)/bin
@@ -355,9 +356,10 @@ $(D)/host_libglib2_genmarshal: $(D)/bootstrap $(D)/host_libffi $(ARCHIVE)/$(LIBG
 #
 # libglib2
 #
-LIBGLIB2_PATCH = libglib2-$(LIBGLIB2_VER)-disable-tests.patch
+LIBGLIB2_PATCH  = libglib2-$(LIBGLIB2_VER)-disable-tests.patch
+LIBGLIB2_PATCH += libglib2-$(LIBGLIB2_VER)-fix-gio-linking.patch
 
-$(D)/libglib2: $(D)/bootstrap $(D)/host_libglib2_genmarshal $(D)/zlib $(D)/libffi $(ARCHIVE)/$(LIBGLIB2_SOURCE)
+$(D)/libglib2: $(D)/bootstrap $(D)/host_libglib2_genmarshal $(D)/zlib $(D)/libffi  $(D)/util_linux $(ARCHIVE)/$(LIBGLIB2_SOURCE)
 	$(START_BUILD)
 	$(REMOVE)/glib-$(LIBGLIB2_VER)
 	$(UNTAR)/$(LIBGLIB2_SOURCE)
@@ -369,7 +371,9 @@ $(D)/libglib2: $(D)/bootstrap $(D)/host_libglib2_genmarshal $(D)/zlib $(D)/libff
 		echo "ac_cv_func_posix_getgrgid_r=yes" >> config.cache; \
 		echo "glib_cv_stack_grows=no" >> config.cache; \
 		echo "glib_cv_uscore=no" >> config.cache; \
+		echo "ac_cv_path_GLIB_GENMARSHAL=$(HOST_DIR)/bin/glib-genmarshal" >> config.cache; \
 		$(call apply_patches, $(LIBGLIB2_PATCH)); \
+		autoreconf -fi $(SILENT_OPT); \
 		$(CONFIGURE) \
 			--prefix=/usr \
 			--enable-static \
@@ -404,7 +408,7 @@ $(D)/libglib2: $(D)/bootstrap $(D)/host_libglib2_genmarshal $(D)/zlib $(D)/libff
 	$(REWRITE_LIBTOOLDEP)/libgio-2.0.la
 	$(REWRITE_LIBTOOLDEP)/libgobject-2.0.la
 	$(REWRITE_LIBTOOLDEP)/libgthread-2.0.la
-	rm -rf $(addprefix $(TARGET_DIR)/usr/share/,bash-completion gettext glib-2.0)
+	rm -rf $(addprefix $(TARGET_SHARE_DIR)/,bash-completion gettext glib-2.0)
 	$(REMOVE)/glib-$(LIBGLIB2_VER)
 	$(TOUCH)
 

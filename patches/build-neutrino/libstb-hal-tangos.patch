@@ -1,43 +1,3 @@
---- libstb-hal-tangos.org/acinclude.m4
-+++ libstb-hal-tangos/acinclude.m4
-@@ -163,6 +163,10 @@
- 			BOXTYPE="spark"
- 			BOXMODEL="$withval"
- 		;;
-+		hl101)
-+			BOXTYPE="duckbox"
-+			BOXMODEL="$withval"
-+		;;
- 		ufs*)
- 			BOXTYPE="duckbox"
- 			BOXMODEL="$withval"
-@@ -217,7 +221,7 @@
- AS_HELP_STRING([], [valid for mipsbox: vuduo, vuduo2, gb800se, osnino, osninoplus, osninopro])
- AS_HELP_STRING([], [valid for generic: raspi]),
- 	[case "${withval}" in
--		ufs910|ufs912|ufs913|ufs922|atevio7500|fortis_hdbox|octagon1008|cuberevo|cuberevo_mini|cuberevo_mini2|cuberevo_250hd|cuberevo_2000hd|cuberevo_3000hd|ipbox9900|ipbox99|ipbox55|tf7700)
-+		hl101|ufs910|ufs912|ufs913|ufs922|atevio7500|fortis_hdbox|octagon1008|cuberevo|cuberevo_mini|cuberevo_mini2|cuberevo_250hd|cuberevo_2000hd|cuberevo_3000hd|ipbox9900|ipbox99|ipbox55|tf7700)
- 			if test "$BOXTYPE" = "duckbox"; then
- 				BOXMODEL="$withval"
- 			else
-@@ -272,6 +276,7 @@
- AM_CONDITIONAL(BOXMODEL_UFS912, test "$BOXMODEL" = "ufs912")
- AM_CONDITIONAL(BOXMODEL_UFS913, test "$BOXMODEL" = "ufs913")
- AM_CONDITIONAL(BOXMODEL_UFS922, test "$BOXMODEL" = "ufs922")
-+AM_CONDITIONAL(BOXMODEL_HL101, test "$BOXMODEL" = "hl101")
- AM_CONDITIONAL(BOXMODEL_SPARK, test "$BOXMODEL" = "spark")
- AM_CONDITIONAL(BOXMODEL_SPARK7162, test "$BOXMODEL" = "spark7162")
- AM_CONDITIONAL(BOXMODEL_ATEVIO7500, test "$BOXMODEL" = "atevio7500")
-@@ -348,6 +353,8 @@
- 	AC_DEFINE(BOXMODEL_UFS913, 1, [ufs913])
- elif test "$BOXMODEL" = "ufs922"; then
- 	AC_DEFINE(BOXMODEL_UFS922, 1, [ufs922])
-+elif test "$BOXMODEL" = "hl101"; then
-+	AC_DEFINE(BOXMODEL_HL101, 1, [hl101])
- elif test "$BOXMODEL" = "spark"; then
- 	AC_DEFINE(BOXMODEL_SPARK, 1, [spark])
- elif test "$BOXMODEL" = "spark7162"; then
-
 --- libstb-hal-tangos.org/common/Makefile.am
 +++ libstb-hal-tangos/common/Makefile.am
 @@ -1,6 +1,6 @@
@@ -1213,5 +1173,4 @@
  			caps.display_can_set_brightness = 1;
  		}
  		close(fd);
-
 
